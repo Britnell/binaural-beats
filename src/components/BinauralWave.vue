@@ -130,15 +130,14 @@ onUnmounted(() => {
         />
       </div>
     </div>
-
     <VolumeControl v-model:volume.number="volume" />
-  </div>
-  <div class="flex justify-center">
-    <button
-      @click="togglePlay"
-      class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-    >
-      {{ isPlaying ? "Stop" : "Start" }}
-    </button>
+    <div class="col-span-full justify-self-center">
+      <button
+        @click="togglePlay"
+        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+      >
+        {{ isPlaying ? "Stop" : "Start" }}
+      </button>
+    </div>
   </div>
 </template>
