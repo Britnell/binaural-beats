@@ -46,7 +46,7 @@ const currentNote = computed(() => {
           v-for="key in keys"
           :key="'#' + key + oct"
           @click="setNote(key, oct)"
-          class="sm:grow w-10 border border-black border-r-0 last:border-r text-sm py-1"
+          class="sm:grow w-10 py-1 border border-black border-r-0 last:border-r text-sm"
           :class="{
             'bg-black text-white': key.includes('#'),
             ' bg-blue-600': `${key}${oct}` === currentNote,

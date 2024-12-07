@@ -143,9 +143,22 @@ const currentBand = computed(() => {
 <template>
   <div class="controls sm:grid grid-cols-[auto_80px] gap-2">
     <div class="row-span-2 xxxmax-w-[550px] space-y-4">
-      <div class="sm:border border-gray-300 p-2 sm:p-4">
-        <div class="flex mb-2 items-center gap-4">
+      <div class="sm:border border-gray-300 sm:p-4">
+        <div class="flex mb-3 items-center gap-4">
           <h2 class="text-lg">Binaural Frequency</h2>
+        </div>
+        <div class="mb-3">
+          <label class="block text-center text-slate-800" for="freqdiff">
+            {{ frequencyDiff }}Hz</label
+          >
+          <input
+            type="range"
+            id="freqdiff"
+            v-model.number="frequencyDiff"
+            min="1"
+            max="40"
+            class="w-full"
+          />
         </div>
         <div class="flex flex-wrap divide-x divide-solid divide-gray-400">
           <div
@@ -165,24 +178,11 @@ const currentBand = computed(() => {
             </div>
           </div>
         </div>
-        <div class="pt-3">
-          <label class="block text-center text-slate-800" for="freqdiff">
-            {{ frequencyDiff }}Hz</label
-          >
-          <input
-            type="range"
-            id="freqdiff"
-            v-model.number="frequencyDiff"
-            min="1"
-            max="40"
-            class="w-full"
-          />
-        </div>
       </div>
-      <div>
+      <div class="sm:border border-gray-300 sm:p-2 relative">
         <TabContainer :tabs="['Notes', 'Hz']">
           <template #header>
-            <h2 class="text-lg sm:px-2">Base Frequency</h2>
+            <h2 class="text-lg leading-tight mb-1">Base Frequency</h2>
           </template>
           <template #Hz>
             <div class="grow grid place-items-center">
