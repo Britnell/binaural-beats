@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import BinauralWave from "./components/BinauralWave.vue";
 
 const a = ref();
 </script>
@@ -8,7 +9,7 @@ const a = ref();
     <header>
       <h1>App</h1>
     </header>
-    <p>App</p>
+    <BinauralWave />
   </div>
 </template>
 
