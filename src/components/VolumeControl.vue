@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Ref, toRefs } from "vue";
-
 defineProps<{
   volume: number;
 }>();
@@ -21,8 +19,8 @@ const emit = defineEmits(["update:volume"]);
       min="0"
       max="1"
       step="0.01"
-      class="h-32 appearance-none bg-gray-200 rounded-lg cursor-pointer"
-      style="writing-mode: bt-lr; -webkit-appearance: slider-vertical"
+      class=" "
+      style="writing-mode: vertical-lr; direction: rtl"
     />
     <div class="text-sm font-medium text-gray-700">
       {{ Math.round(volume * 100) }}%

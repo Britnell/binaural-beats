@@ -8,8 +8,8 @@ const oscillatorRight = ref<OscillatorNode | null>(null);
 const gainNode = ref<GainNode | null>(null);
 const isPlaying = ref(false);
 
-const baseFrequency = ref(200);
-const frequencyDiff = ref(10);
+const baseFrequency = ref(260);
+const frequencyDiff = ref(6);
 const volume = ref(0.5);
 
 const initAudio = () => {
@@ -103,7 +103,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="controls grid grid-cols-[1fr_100px] gap-4">
+  <div class="controls grid grid-cols-[1fr_80px] gap-4">
     <div class="freq">
       <div class=" ">
         <label class="block text-sm font-medium text-gray-700"
