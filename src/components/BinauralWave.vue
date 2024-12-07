@@ -67,7 +67,6 @@ watch(volume, () => {
   updateVolume();
 });
 
-// Toggle play/pause
 const togglePlay = async () => {
   if (!audioContext.value) {
     await initAudio();
@@ -82,7 +81,19 @@ const togglePlay = async () => {
   }
 };
 
+const onKeyPress = (ev: KeyboardEvent) => {
+  if (ev.code === "Space") {
+    togglePlay();
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("keydown", onKeyPress);
+});
+
 onUnmounted(() => {
+  window.removeEventListener("keydown", onKeyPress);
+
   if (audioContext.value) {
     audioContext.value.close();
   }
