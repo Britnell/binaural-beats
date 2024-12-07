@@ -6,7 +6,9 @@ defineProps<{
 const emit = defineEmits(["update:volume"]);
 </script>
 <template>
-  <div class="flex flex-col items-center gap-2">
+  <div
+    class="flex flex-row-reverse sm:flex-col items-center justify-center gap-2"
+  >
     <input
       type="range"
       :value="volume"
@@ -19,8 +21,7 @@ const emit = defineEmits(["update:volume"]);
       min="0"
       max="1"
       step="0.01"
-      class=" "
-      style="writing-mode: vertical-lr; direction: rtl"
+      class="sm:vertical"
     />
     <div class="text-sm font-medium text-gray-700">
       {{ Math.round(volume * 100) }}%

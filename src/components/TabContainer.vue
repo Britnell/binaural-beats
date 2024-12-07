@@ -28,7 +28,7 @@ const switchTab = (tab: string) => {
       </div>
       <div class="p-2">
         <template v-for="tab in tabs" :key="tab">
-          <div v-show="activeTab === tab" class="min-h-[120px] flex flex-col">
+          <div v-show="activeTab === tab" class="min-h-[90px] flex flex-col">
             <slot :name="tab"></slot>
           </div>
         </template>

@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import BinauralWave from "./components/BinauralWave.vue";
-
-const a = ref();
 </script>
 <template>
-  <div class="max-w-3xl mx-auto px-8">
+  <div class="max-w-[640px] mx-auto px-8 mb-20">
     <header class="py-4">
-      <h1>Binaural Beats</h1>
+      <h1 class="text-2xl font-bold text-center">Binaural Beats</h1>
     </header>
     <div>
       <BinauralWave />

@@ -124,9 +124,25 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="controls grid grid-cols-[1fr_80px] gap-4">
-    <div class="space-y-4">
-      <div class="">
+  <div class="controls sm:grid grid-cols-[auto_80px] gap-2">
+    <div class="row-span-2 space-y-4">
+      <div>
+        <h2 class="font-bold text-lg mb-1">Binaural Frequency</h2>
+        <div class="border border-gray-300 p-2 flex flex-col items-center">
+          <label class="block text-gray-700"
+            >Frequency Difference: {{ frequencyDiff }}Hz</label
+          >
+          <input
+            type="range"
+            v-model.number="frequencyDiff"
+            min="1"
+            max="40"
+            class="w-full"
+          />
+        </div>
+      </div>
+      <div>
+        <h2 class="font-bold text-lg mb-1">Base Frequency</h2>
         <TabContainer :tabs="['Notes', 'Hz']">
           <template #Hz>
             <div class="grow grid place-items-center">
@@ -138,24 +154,12 @@ onUnmounted(() => {
           </template>
         </TabContainer>
       </div>
-      <div class="">
-        <label class="block text-sm font-medium text-gray-700"
-          >Frequency Difference: {{ frequencyDiff }}Hz</label
-        >
-        <input
-          type="range"
-          v-model.number="frequencyDiff"
-          min="1"
-          max="40"
-          class="w-full"
-        />
-      </div>
     </div>
     <VolumeControl v-model:volume.number="volume" />
-    <div class="col-span-full justify-self-center">
+    <div class="place-self-center">
       <button
         @click="togglePlay"
-        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+        class="size-14 sm:size-16 rounded-full bg-blue-500 text-white sm:text-lg hover:bg-blue-600 transition-colors"
       >
         {{ isPlaying ? "Stop" : "Start" }}
       </button>
