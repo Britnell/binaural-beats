@@ -8,8 +8,8 @@ const emit = defineEmits(["update:modelValue"]);
 
 <template>
   <div class="w-full">
-    <label class="block text-sm font-medium text-gray-700"
-      >Base Frequency: {{ Math.floor(modelValue * 10) / 10 }}Hz</label
+    <label class="block text-sm text-center text-slate-800"
+      >Base Note: {{ Math.floor(modelValue * 10) / 10 }}Hz</label
     >
     <input
       type="range"

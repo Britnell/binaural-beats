@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 import VolumeControl from "./VolumeControl.vue";
 import BaseFrequencyControl from "./BaseFrequencyControl.vue";
 import TabContainer from "./TabContainer.vue";
@@ -121,19 +121,57 @@ onUnmounted(() => {
     audioContext.value.close();
   }
 });
+
+const bands = {
+  delta: 4,
+  theta: 8,
+  alpha: 13,
+  beta: 30,
+  gamma: 50,
+};
+
+const bandKeys = Object.keys(bands) as (keyof typeof bands)[];
+
+const currentBand = computed(() => {
+  for (const key of bandKeys) {
+    if (frequencyDiff.value < bands[key]) return key;
+  }
+  return "";
+});
 </script>
 
 <template>
   <div class="controls sm:grid grid-cols-[auto_80px] gap-2">
-    <div class="row-span-2 space-y-4">
-      <div>
-        <h2 class="font-bold text-lg mb-1">Binaural Frequency</h2>
-        <div class="border border-gray-300 p-2 flex flex-col items-center">
-          <label class="block text-gray-700"
-            >Frequency Difference: {{ frequencyDiff }}Hz</label
+    <div class="row-span-2 xxxmax-w-[550px] space-y-4">
+      <div class="sm:border border-gray-300 p-2 sm:p-4">
+        <div class="flex mb-2 items-center gap-4">
+          <h2 class="text-lg">Binaural Frequency</h2>
+        </div>
+        <div class="flex flex-wrap divide-x divide-solid divide-gray-400">
+          <div
+            v-for="[band, max] in Object.entries(bands)"
+            :key="band"
+            class="grow px-4 flex-[1_0_auto]"
+            :class="{
+              'bg-blue-100': currentBand === band,
+              'bg-gray-100': currentBand !== band,
+            }"
+          >
+            <div class="py-1 text-center flex flex-col text-sm">
+              <span>
+                {{ band }}
+              </span>
+              <span> {{ `< ${max} Hz` }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="pt-3">
+          <label class="block text-center text-slate-800" for="freqdiff">
+            {{ frequencyDiff }}Hz</label
           >
           <input
             type="range"
+            id="freqdiff"
             v-model.number="frequencyDiff"
             min="1"
             max="40"
@@ -142,8 +180,10 @@ onUnmounted(() => {
         </div>
       </div>
       <div>
-        <h2 class="font-bold text-lg mb-1">Base Frequency</h2>
         <TabContainer :tabs="['Notes', 'Hz']">
+          <template #header>
+            <h2 class="text-lg sm:px-2">Base Frequency</h2>
+          </template>
           <template #Hz>
             <div class="grow grid place-items-center">
               <BaseFrequencyControl v-model.number="baseFrequency" />

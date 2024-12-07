@@ -37,15 +37,20 @@ const currentNote = computed(() => {
 <template>
   <div class="">
     <div class="space-y-1">
-      <div v-for="oct in [octave + 1, octave]" :key="oct" class="flex">
+      <div
+        v-for="oct in [octave + 1, octave]"
+        :key="oct"
+        class="flex flex-wrap"
+      >
         <button
           v-for="key in keys"
           :key="'#' + key + oct"
           @click="setNote(key, oct)"
-          class="w-10 border border-black border-r-0 last:border-r"
+          class="sm:grow w-10 border border-black border-r-0 last:border-r text-sm py-1"
           :class="{
             'bg-black text-white': key.includes('#'),
             ' bg-blue-600': `${key}${oct}` === currentNote,
+            ' hidden sm:block ': oct !== octave,
           }"
         >
           {{ key }}{{ oct }}
