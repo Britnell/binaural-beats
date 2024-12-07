@@ -61,7 +61,7 @@ const updateVolume = () => {
   if (!gainNode.value || !audioContext.value) return;
 
   const currentTime = audioContext.value.currentTime;
-  gainNode.value.gain.linearRampToValueAtTime(volume.value, currentTime + 0.5);
+  gainNode.value.gain.linearRampToValueAtTime(volume.value, currentTime + 0.2);
 };
 
 watch([baseFrequency, frequencyDiff], () => {
@@ -72,23 +72,41 @@ watch(volume, () => {
   updateVolume();
 });
 
+const fadeGainPromise = (gain: number, sec: number) => {
+  return new Promise((resolve) => {
+    if (!audioContext.value) return;
+    gainNode.value?.gain.linearRampToValueAtTime(
+      gain,
+      audioContext.value.currentTime + sec
+    );
+    setTimeout(() => {
+      resolve(true);
+    }, sec * 1000);
+  });
+};
+
+const onOffFade = 0.8;
 const togglePlay = async () => {
   if (!audioContext.value) {
     await initAudio();
     if (!audioContext.value) return;
   }
 
-  isPlaying.value = !isPlaying.value;
-  if (!isPlaying.value) {
-    await audioContext.value.suspend();
+  const stop = isPlaying.value;
+  if (stop) {
+    fadeGainPromise(0, onOffFade).then(() => audioContext.value?.suspend());
   } else {
-    await audioContext.value.resume();
+    gainNode.value?.gain.setValueAtTime(0, audioContext.value.currentTime);
+    audioContext.value
+      .resume()
+      .then(() => fadeGainPromise(volume.value, onOffFade));
   }
+  isPlaying.value = !isPlaying.value;
 };
 
 const onKeyPress = (ev: KeyboardEvent) => {
   if (ev.code === "Space") {
-    togglePlay();
+    // togglePlay();
   }
 };
 
