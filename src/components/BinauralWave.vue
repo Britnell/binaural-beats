@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted, watch } from "vue";
 import VolumeControl from "./VolumeControl.vue";
 import BaseFrequencyControl from "./BaseFrequencyControl.vue";
 import TabContainer from "./TabContainer.vue";
+import BaseFreqKeys from "./BaseFreqKeys.vue";
 
 const audioContext = ref<AudioContext | null>(null);
 const oscillatorLeft = ref<OscillatorNode | null>(null);
@@ -108,12 +109,12 @@ onUnmounted(() => {
   <div class="controls grid grid-cols-[1fr_80px] gap-4">
     <div class="space-y-4">
       <div class="">
-        <TabContainer :tabs="['Hz', 'Notes']">
+        <TabContainer :tabs="['Notes', 'Hz']">
           <template #Hz>
             <BaseFrequencyControl v-model.number="baseFrequency" />
           </template>
           <template #Notes>
-            <p>C D E F</p>
+            <BaseFreqKeys v-model.number="baseFrequency" />
           </template>
         </TabContainer>
       </div>
