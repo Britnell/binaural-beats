@@ -4,10 +4,12 @@ import { ref, onMounted, onUnmounted, watch } from "vue";
 const audioContext = ref<AudioContext | null>(null);
 const oscillatorLeft = ref<OscillatorNode | null>(null);
 const oscillatorRight = ref<OscillatorNode | null>(null);
+const gainNode = ref<GainNode | null>(null);
 const isPlaying = ref(false);
 
 const baseFrequency = ref(200);
 const frequencyDiff = ref(10);
+const volume = ref(0.5);
 
 const initAudio = () => {
   audioContext.value = new AudioContext();
@@ -19,12 +21,17 @@ const initAudio = () => {
   const pannerRight = audioContext.value.createStereoPanner();
   pannerLeft.pan.value = -1;
   pannerRight.pan.value = 1;
+
+  gainNode.value = audioContext.value.createGain();
+
   oscillatorLeft.value.connect(pannerLeft);
   oscillatorRight.value.connect(pannerRight);
-  pannerLeft.connect(audioContext.value.destination);
-  pannerRight.connect(audioContext.value.destination);
+  pannerLeft.connect(gainNode.value);
+  pannerRight.connect(gainNode.value);
+  gainNode.value.connect(audioContext.value.destination);
 
   updateFrequencies();
+  updateVolume();
 
   oscillatorLeft.value.start();
   oscillatorRight.value.start();
@@ -45,20 +52,28 @@ const updateFrequencies = () => {
   );
 };
 
+const updateVolume = () => {
+  if (!gainNode.value || !audioContext.value) return;
+
+  const currentTime = audioContext.value.currentTime;
+  gainNode.value.gain.setValueAtTime(volume.value, currentTime);
+};
+
 watch([baseFrequency, frequencyDiff], () => {
   updateFrequencies();
 });
 
-onMounted(() => {});
+watch(volume, () => {
+  updateVolume();
+});
 
 // Toggle play/pause
 const togglePlay = async () => {
   if (!audioContext.value) {
     await initAudio();
+    if (!audioContext.value) return;
   }
-  if (!audioContext.value) {
-    return;
-  }
+
   isPlaying.value = !isPlaying.value;
   if (!isPlaying.value) {
     await audioContext.value.suspend();
@@ -67,7 +82,6 @@ const togglePlay = async () => {
   }
 };
 
-// Clean up on component unmount
 onUnmounted(() => {
   if (audioContext.value) {
     audioContext.value.close();
@@ -90,7 +104,6 @@ onUnmounted(() => {
           class="w-full"
         />
       </div>
-
       <div class="frequency-control">
         <label class="block text-sm font-medium text-gray-700"
           >Frequency Difference: {{ frequencyDiff }}Hz</label
@@ -100,6 +113,19 @@ onUnmounted(() => {
           v-model.number="frequencyDiff"
           min="1"
           max="40"
+          class="w-full"
+        />
+      </div>
+      <div class="volume-control">
+        <label class="block text-sm font-medium text-gray-700"
+          >Volume: {{ Math.round(volume * 100) }}%</label
+        >
+        <input
+          type="range"
+          v-model.number="volume"
+          min="0"
+          max="1"
+          step="0.01"
           class="w-full"
         />
       </div>
