@@ -23,6 +23,7 @@ const initAudio = () => {
   pannerRight.pan.value = 1;
 
   gainNode.value = audioContext.value.createGain();
+  gainNode.value.gain.setValueAtTime(0, audioContext.value.currentTime);
 
   oscillatorLeft.value.connect(pannerLeft);
   oscillatorRight.value.connect(pannerRight);
@@ -56,7 +57,7 @@ const updateVolume = () => {
   if (!gainNode.value || !audioContext.value) return;
 
   const currentTime = audioContext.value.currentTime;
-  gainNode.value.gain.setValueAtTime(volume.value, currentTime);
+  gainNode.value.gain.linearRampToValueAtTime(volume.value, currentTime + 0.5);
 };
 
 watch([baseFrequency, frequencyDiff], () => {
