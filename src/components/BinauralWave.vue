@@ -129,7 +129,9 @@ onUnmounted(() => {
       <div class="">
         <TabContainer :tabs="['Notes', 'Hz']">
           <template #Hz>
-            <BaseFrequencyControl v-model.number="baseFrequency" />
+            <div class="grow grid place-items-center">
+              <BaseFrequencyControl v-model.number="baseFrequency" />
+            </div>
           </template>
           <template #Notes>
             <BaseFreqKeys v-model.number="baseFrequency" />

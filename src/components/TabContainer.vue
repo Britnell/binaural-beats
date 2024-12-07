@@ -13,27 +13,26 @@ const switchTab = (tab: string) => {
 </script>
 
 <template>
-  <div class="">
-    <div class="">
-      <button
-        v-for="tab in props.tabs"
-        :key="tab"
-        class="px-2 py-1"
-        :class="[activeTab === tab ? '  bg-blue-200' : ' bg-gray-200']"
-        @click="switchTab(tab)"
-      >
-        {{ tab }}
-      </button>
-    </div>
-    <div class=" ">
-      <template v-for="tab in tabs" :key="tab">
-        <div
-          v-show="activeTab === tab"
-          class="min-h-[100px] w-full flex items-center"
+  <div>
+    <div class="border border-gray-300">
+      <div class="flex border border-gray-300 w-fit">
+        <button
+          v-for="tab in props.tabs"
+          :key="tab"
+          class="px-2 py-1"
+          :class="[activeTab === tab ? ' ' : 'bg-gray-300 hover:bg-gray-100']"
+          @click="switchTab(tab)"
         >
-          <slot :name="tab"></slot>
-        </div>
-      </template>
+          {{ tab }}
+        </button>
+      </div>
+      <div class="p-2">
+        <template v-for="tab in tabs" :key="tab">
+          <div v-show="activeTab === tab" class="min-h-[120px] flex flex-col">
+            <slot :name="tab"></slot>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>

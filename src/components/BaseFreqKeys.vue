@@ -35,14 +35,10 @@ const currentNote = computed(() => {
 </script>
 
 <template>
-  <div>
-    <div class="flex gap-2">
-      <button @click="octave--">Up</button>
-      <button @click="octave++">Down</button>
-    </div>
-    <div class="x flex flex-wrap gap-2">
+  <div class="">
+    <div class="space-y-1">
       <div
-        v-for="oct in [octave - 1, octave, octave + 1]"
+        v-for="oct in [octave + 1, octave, octave - 1]"
         :key="oct"
         class="flex"
       >
@@ -59,6 +55,12 @@ const currentNote = computed(() => {
           {{ key }}{{ oct }}
         </button>
       </div>
+    </div>
+    <div class="flex gap-2 mt-2">
+      <button @click="octave--" class="px-2 py- bg-gray-200">
+        Octave Down
+      </button>
+      <button @click="octave++" class="px-2 py- bg-gray-200">Octave Up</button>
     </div>
   </div>
 </template>
