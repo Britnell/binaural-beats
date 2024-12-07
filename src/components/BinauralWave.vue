@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from "vue";
+import VolumeControl from "./VolumeControl.vue";
 
 const audioContext = ref<AudioContext | null>(null);
 const oscillatorLeft = ref<OscillatorNode | null>(null);
@@ -102,9 +103,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="binaural-wave p-4">
-    <div class="controls space-y-4">
-      <div class="frequency-control">
+  <div class="controls grid grid-cols-[1fr_100px] gap-4">
+    <div class="freq">
+      <div class=" ">
         <label class="block text-sm font-medium text-gray-700"
           >Base Frequency: {{ baseFrequency }}Hz</label
         >
@@ -116,7 +117,7 @@ onUnmounted(() => {
           class="w-full"
         />
       </div>
-      <div class="frequency-control">
+      <div class=" ">
         <label class="block text-sm font-medium text-gray-700"
           >Frequency Difference: {{ frequencyDiff }}Hz</label
         >
@@ -128,26 +129,16 @@ onUnmounted(() => {
           class="w-full"
         />
       </div>
-      <div class="volume-control">
-        <label class="block text-sm font-medium text-gray-700"
-          >Volume: {{ Math.round(volume * 100) }}%</label
-        >
-        <input
-          type="range"
-          v-model.number="volume"
-          min="0"
-          max="1"
-          step="0.01"
-          class="w-full"
-        />
-      </div>
-
-      <button
-        @click="togglePlay"
-        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-      >
-        {{ isPlaying ? "Stop" : "Start" }}
-      </button>
     </div>
+
+    <VolumeControl v-model:volume.number="volume" />
+  </div>
+  <div class="flex justify-center">
+    <button
+      @click="togglePlay"
+      class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+    >
+      {{ isPlaying ? "Stop" : "Start" }}
+    </button>
   </div>
 </template>

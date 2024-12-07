@@ -5,11 +5,13 @@ import BinauralWave from "./components/BinauralWave.vue";
 const a = ref();
 </script>
 <template>
-  <div>
-    <header>
-      <h1>App</h1>
+  <div class="max-w-3xl mx-auto px-8">
+    <header class="py-4">
+      <h1>Binaural Beats</h1>
     </header>
-    <BinauralWave />
+    <div>
+      <BinauralWave />
+    </div>
   </div>
 </template>
 
